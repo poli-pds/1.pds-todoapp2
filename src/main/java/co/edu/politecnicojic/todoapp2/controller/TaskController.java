@@ -1,13 +1,16 @@
 package co.edu.politecnicojic.todoapp2.controller;
 
+import co.edu.politecnicojic.todoapp2.exceptions.TaskException;
 import co.edu.politecnicojic.todoapp2.persistence.entity.Task;
 import co.edu.politecnicojic.todoapp2.persistence.entity.TaskStatus;
 import co.edu.politecnicojic.todoapp2.services.TaskService;
 import co.edu.politecnicojic.todoapp2.services.dto.TaskInDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/task")
@@ -34,12 +37,18 @@ public class TaskController {
 
     @PatchMapping("mark_as_finished/{taskId}")
     public Task markTaskAsFinished(@PathVariable("taskId") Long taskId) {
-        return this.taskService.markTaskAsFinished(taskId);
+        Task task = this.taskService.markTaskAsFinished(taskId);
+        if (Objects.isNull(task))
+            throw new TaskException("Task not found", HttpStatus.NOT_FOUND);
+        return task;
     }
 
     @DeleteMapping("/{taskId}")
     public Task deleteTaskById(@PathVariable("taskId") Long taskId) {
-        return this.taskService.deleteTaskById(taskId);
+        Task task = this.taskService.deleteTaskById(taskId);
+        if (Objects.isNull(task))
+            throw new TaskException("Task not found", HttpStatus.NOT_FOUND);
+        return task;
     }
 
 }

@@ -2,7 +2,6 @@ package co.edu.politecnicojic.todoapp2.exceptions;
 
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,10 +13,10 @@ public class RestResponseEntityExceptionHandler
         extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value
-            = { IllegalArgumentException.class, IllegalStateException.class })
+            = {TaskException.class})
     protected ResponseEntity<Object> handleConflict(
             TaskException ex, WebRequest request) {
         return handleExceptionInternal(ex, ex.getMessage(),
-                new HttpHeaders(), HttpStatus.CONFLICT, request);
+                new HttpHeaders(), ex.getHttpStatus(), request);
     }
 }
