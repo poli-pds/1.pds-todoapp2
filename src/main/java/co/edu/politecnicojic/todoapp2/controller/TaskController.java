@@ -31,4 +31,15 @@ public class TaskController {
     public List<Task> findAll() {
         return taskService.findAll();
     }
+
+    @PatchMapping("mark_as_finished/{taskId}")
+    public Task markTaskAsFinished(@PathVariable("taskId") Long taskId) {
+        return this.taskService.markTaskAsFinished(taskId);
+    }
+
+    @DeleteMapping("/{taskId}")
+    public Task deleteTaskById(@PathVariable("taskId") Long taskId) {
+        return this.taskService.deleteTaskById(taskId);
+    }
+
 }
